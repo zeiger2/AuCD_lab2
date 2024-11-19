@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "AuCD_lab2", "AuCD_lab2\AuCD_lab2.pyproj", "{BFB6EB86-438D-4ADF-A256-17C3B6F9F17C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFB6EB86-438D-4ADF-A256-17C3B6F9F17C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB6EB86-438D-4ADF-A256-17C3B6F9F17C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C97E9F95-1FFF-4655-8FD4-967D2C3763B2}
+	EndGlobalSection
+EndGlobal
