@@ -88,40 +88,95 @@ class BinarySearchTree:
             return 0
         return 1 + max(self._height_rec(root.left), self._height_rec(root.right))
 
+    def print_tree(self, node, level=0, prefix="Root:"):
+        if node is not None:
+            print(" " * (level * 4) + prefix + " " + str(node.val))
+            self.print_tree(node.left, level + 1, prefix="L---")
+            self.print_tree(node.right, level + 1, prefix="R---")
 
-# bst = BinarySearchTree()
-# bst.insert(50)
-# bst.insert(30)
-# bst.insert(20)
-# bst.insert(40)
-# bst.insert(70)
-# bst.insert(60)
-# bst.insert(80)
+    def bfs(self):
+        if self.root is None:
+            print("Tree is empty.")
+            return
 
-# print("Input tree traversal:")
-# bst.inorder()
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            print(node.val, end=" ")
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
 
-# bst.delete(20)
-# print("\nAfter removing 20:")
-# bst.inorder()
+    def display_in_ordered(self, node=None):
+        if node is None:
+            return 
+        if node:
+            self.display_in_ordered(node.left)
+            print(node.val, end=" ")
+            self.display_in_ordered(node.right)
 
-# bst.delete(30)
-# print("\nAfter removing 30:")
-# bst.inorder()
+    def display_pre_ordered(self, node=None):
+        if node is None:
+            return 
+        if node:
+            print(node.val, end=" ")
+            self.display_pre_ordered(node.left)
+            self.display_pre_ordered(node.right)
 
-# bst.delete(50)
-# print("\nAfter removing 50:")
-# bst.inorder()
+    def display_post_ordered(self, node=None):
+        if node is None:
+            return 
+        if node:
+            self.display_post_ordered(node.left)
+            self.display_post_ordered(node.right)
+            print(node.val, end=" ")
 
 
-# result = bst.search(40)
-# if result:
-#     print("\nElement 40 found.")
-# else:
-#     print("\nElement 40 not found.")
+bst = BinarySearchTree()
+bst.insert(8)
+bst.insert(3)
+bst.insert(10)
+bst.insert(1)
+bst.insert(6)
+bst.insert(14)
+bst.insert(4)
+bst.insert(7)
+bst.insert(13)
+bst.insert(20)
+bst.insert(15)
 
+print("\nInput tree traversal:")
+bst.print_tree(bst.root)
 
+bst.delete(20)
+print("\nAfter removing 20:")
+bst.print_tree(bst.root)
 
+result = bst.search(40)
+if result:
+    print("\nElement 40 found.")
+else:
+    print("\nElement 40 not found.")
+result = bst.search(10)
+if result:
+    print("\nElement 10 found.")
+else:
+    print("\nElement 10 not found.")
+
+print("\nWide crawl:")
+bst.bfs()
+
+print("\nDepth First Traversal Pre Ordered (Rlr):")
+bst.display_pre_ordered(bst.root)
+
+print("\nDepth First Traversal In Ordered (lRr):")
+bst.display_in_ordered(bst.root)
+
+print("\nDepth First Traversal Post Ordered (lrR):")
+bst.display_post_ordered(bst.root)
+
+print('\n')
 # def experiment(num_insertions):
 #     bst = BinarySearchTree()
 #     heights = []
@@ -151,42 +206,42 @@ class BinarySearchTree:
 # plt.show()
 
 
-def experiment(num_insertions):
-    bst = BinarySearchTree()
-    heights = []
+# def experiment(num_insertions):
+#     bst = BinarySearchTree()
+#     heights = []
 
-    for _ in range(num_insertions):
-        key = random.randint(1, 1000000) 
-        bst.insert(key)
-        heights.append(bst.height())
+#     for _ in range(num_insertions):
+#         key = random.randint(1, 1000000) 
+#         bst.insert(key)
+#         heights.append(bst.height())
 
-    return heights
+#     return heights
 
-max_insertions = 1000
-heights = experiment(max_insertions)
+# max_insertions = 1000
+# heights = experiment(max_insertions)
 
-x_values = np.array(range(1, max_insertions + 1))
+# x_values = np.array(range(1, max_insertions + 1))
 
-log_x_values = np.log(x_values)
+# log_x_values = np.log(x_values)
 
-# Использование np.polyfit для получения коэффициентов линейной регрессии
-coefficients = np.polyfit(log_x_values, heights, 1)
+# # Использование np.polyfit для получения коэффициентов линейной регрессии
+# coefficients = np.polyfit(log_x_values, heights, 1)
 
-# Получение y = mx + b
-slope = coefficients[0]
-intercept = coefficients[1]
+# # Получение y = mx + b
+# slope = coefficients[0]
+# intercept = coefficients[1]
 
-regression_heights = slope * log_x_values + intercept
+# regression_heights = slope * log_x_values + intercept
 
-step = 50
-scatter_x = x_values[::step]
-scatter_heights = heights[::step]
+# step = 50
+# scatter_x = x_values[::step]
+# scatter_heights = heights[::step]
 
-plt.scatter(scatter_x, scatter_heights, label='The height', color='blue')
-plt.plot(x_values, regression_heights, color='red', label='Logarithmic regression fit')
-plt.xlabel('Number of insertions')
-plt.ylabel('Height of BST')
-plt.title('Asymptotics of BST Height')
-plt.grid()
-plt.legend()
-plt.show()
+# plt.scatter(scatter_x, scatter_heights, label='The height', color='blue')
+# plt.plot(x_values, regression_heights, color='red', label='Logarithmic regression fit')
+# plt.xlabel('Number of insertions')
+# plt.ylabel('Height of BST')
+# plt.title('Asymptotics of BST Height')
+# plt.grid()
+# plt.legend()
+# plt.show()

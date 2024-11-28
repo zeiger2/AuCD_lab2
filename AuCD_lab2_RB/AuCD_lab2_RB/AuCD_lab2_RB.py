@@ -1,5 +1,6 @@
 from math import radians
 from math import ceil
+from turtle import color
 import numpy as np
 import matplotlib.pyplot as plt
 import random
@@ -194,6 +195,7 @@ class RedBlackTree:
             x.parent.right = y
         y.left = x
         x.parent = y
+
     def right_rotate(self, y):
         x = y.left
         y.left = x.right
@@ -221,52 +223,116 @@ class RedBlackTree:
         else:
             return self._search(node.right, data)
 
+    def print_tree(self, node, level=0, prefix="Root:"):
+        if node is not rbt.NIL_LEAF:
+            print(" " * (level * 4) + prefix + " " + str(node.data) + " " + node.color)
+            self.print_tree(node.left, level + 1, prefix="L---")
+            self.print_tree(node.right, level + 1, prefix="R---")
 
-# Пример использования
-# if __name__ == "__main__":
-#     rbt = RedBlackTree()
+    def bfs(self):
+        if self.root is None:
+            print("Tree is empty.")
+            return
 
-#     # Вставка элементов
-#     elements = [10, 20, 30, 15, 25, 5, 1]
-#     for el in elements:
-#         rbt.insert(el)
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            if node.data!=None:
+                print(node.data, end=" ")   
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
 
-#     print(" Red-black tree after inserts:")
-#     rbt.print_tree(rbt.root)
+    def display_in_ordered(self, node=None):
+        if node is None:
+            return 
+        if node:
+            self.display_in_ordered(node.left)
+            if node.data!=None:
+                print(node.data, end=" ")
+            self.display_in_ordered(node.right)
+
+    def display_pre_ordered(self, node=None):
+        if node is None:
+            return 
+        if node:
+            if node.data!=None:
+                print(node.data, end=" ")
+            self.display_pre_ordered(node.left)
+            self.display_pre_ordered(node.right)
+
+    def display_post_ordered(self, node=None):
+        if node is None:
+            return 
+        if node:
+            self.display_post_ordered(node.left)
+            self.display_post_ordered(node.right)
+            if node.data!=None:
+                print(node.data, end=" ")
+
+
+if __name__ == "__main__":
+    rbt = RedBlackTree()
+
+    elements = [10, 20, 30, 15, 25, 5, 1]
+    for el in elements:
+        rbt.insert(el)
+
+    print(" Red-black tree after inserts:")
+    rbt.print_tree(rbt.root)
+
+    rbt.delete(5)
+    print(" Red-black tree after removing 5:")
+    rbt.print_tree(rbt.root)
     
-#     # Поиск элементов
-#     search_elements = [15, 99]
-#     for el in search_elements:
-#         result = rbt.search(el)
-#         if result != rbt.NIL_LEAF:
-#             print(f"\nElement {el} found.")
-#         else:
-#             print(f"\nElement {el} not found.")
+    search_elements = [15, 99]
+    for el in search_elements:
+        result = rbt.search(el)
+        if result != rbt.NIL_LEAF:
+            print(f"\nElement {el} found.")
+        else:
+            print(f"\nElement {el} not found.")
+    
+    print("\nWide crawl:")
+    rbt.bfs()
 
-def experiment(num_insertions):
-    rb = RedBlackTree()
-    heights = []
+    print("\nDepth First Traversal Pre Ordered (Rlr):")
+    rbt.display_pre_ordered(rbt.root)
 
-    for key in range(1, num_insertions + 1):
-        rb.insert(key)
-        heights.append(rb.height(rb.root))
+    print("\nDepth First Traversal In Ordered (lRr):")
+    rbt.display_in_ordered(rbt.root)
 
-    return heights
+    print("\nDepth First Traversal Post Ordered (lrR):")
+    rbt.display_post_ordered(rbt.root)
 
-max_insertions = 1000
-heights = experiment(max_insertions)
+    print('\n')
 
-x_values = list(range(1, max_insertions + 1))
 
-plt.figure(figsize=(10, 6))
-plt.plot(x_values, heights, label='Tree height (measured)', color='blue')
+# def experiment(num_insertions):
+#     rb = RedBlackTree()
+#     heights = []
 
-plt.plot(x_values, [ceil(2*np.log2(x+1)) for x in x_values], label='Theoretical maximum height 2*log(n+1)', color='orange', linestyle='--')
-plt.plot(x_values, [ceil(np.log2(x+1)) for x in x_values], label='Theoretical minimum height log(n+1)', color='red', linestyle='--')
+#     for key in range(1, num_insertions + 1):
+#         rb.insert(key)
+#         heights.append(rb.height(rb.root))
 
-plt.title('Dependence of the height of the red-black tree on the number of keys')
-plt.xlabel('Number of keys n')
-plt.ylabel('Tree height h(n)')
-plt.legend()
-plt.grid()
-plt.show()
+#     return heights
+
+# max_insertions = 1000
+# heights = experiment(max_insertions)
+
+# x_values = list(range(1, max_insertions + 1))
+
+# plt.figure(figsize=(10, 6))
+# plt.plot(x_values, heights, label='Tree height (measured)', color='blue')
+
+# plt.plot(x_values, [ceil(2*np.log2(x+1)) for x in x_values], label='Theoretical maximum height 2*log(n+1)', color='orange', linestyle='--')
+# plt.plot(x_values, [ceil(np.log2(x+1)) for x in x_values], label='Theoretical minimum height log(n+1)', color='red', linestyle='--')
+
+# plt.title('Dependence of the height of the red-black tree on the number of keys')
+# plt.xlabel('Number of keys n')
+# plt.ylabel('Tree height h(n)')
+# plt.legend()
+# plt.grid()
+# plt.show()
